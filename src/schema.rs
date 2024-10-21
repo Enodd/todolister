@@ -6,10 +6,10 @@ diesel::table! {
         #[max_length = 40]
         title -> Varchar,
         description -> Text,
-        create_date -> Timestamp,
-        due_date -> Nullable<Timestamp>,
-        tags -> Nullable<Array<Nullable<Text>>>,
-        creator -> Uuid,
+        create_date -> Timestamptz,
+        due_date -> Nullable<Timestamptz>,
+        tags -> Array<Text>,
+        user_id -> Uuid,
     }
 }
 
@@ -22,11 +22,11 @@ diesel::table! {
         login -> Varchar,
         #[max_length = 32]
         password -> Varchar,
-        birthdate -> Timestamp,
+        birthdate -> Timestamptz,
     }
 }
 
-diesel::joinable!(tasks -> users (creator));
+diesel::joinable!(tasks -> users (user_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
     tasks,
