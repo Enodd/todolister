@@ -10,6 +10,10 @@ use todolister::models::app_state::{AppState, DbPool};
 
 pub type Error = Box<dyn std::error::Error>;
 
+fn get_session() {
+    todo!("add sessions");
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     dotenv().ok();
@@ -17,10 +21,11 @@ async fn main() -> Result<(), Error> {
     let connection_manager: ConnectionManager<PgConnection> = ConnectionManager::<PgConnection>::new(database_url);
     let pool: DbPool = Pool::builder().build(connection_manager).expect("Failed to create connection pool");
 
+    let _session = get_session();
+
     let app_state = AppState {
         pool
     };
-
     let app = Router::new()
         .layer(
             ServiceBuilder::new()

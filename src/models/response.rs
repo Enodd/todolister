@@ -7,11 +7,17 @@ pub enum ResponseType {
 }
 
 #[derive(Deserialize)]
+pub struct Error {
+    pub code: u16,
+    pub message: String
+}
+
+#[derive(Deserialize)]
 #[serde(tag = "type", content = "data")]
 pub enum Result<T> {
     Success(String),
     Data(T),
-    Error { code: u16, message: String }
+    Error(Error)
 }
 
 pub struct Response<T> (Result<T>);
@@ -27,9 +33,9 @@ impl<T> Response<T> {
             ResponseType::Success => Self (Result::Success(message.to_owned())),
             ResponseType::Data => match data {
                 Some(data ) => Self(Result::Data(data)),
-                None => Self(Result::Error { code, message: message.to_owned() })
+                None => Self(Result::Error(Error{ code, message: message.to_owned() }))
             },
-            ResponseType::Error => Self(Result::Error { code, message: message.to_owned() })
+            ResponseType::Error => Self(Result::Error(Error{ code, message: message.to_owned() }))
         }
     }
 }
