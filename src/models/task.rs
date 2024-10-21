@@ -14,6 +14,6 @@ pub struct Tasks {
     pub description: String,
     pub create_date: NaiveDateTime, // we will calculate severity basing on difference between current_date and due_date, and then we will have percentages
     pub due_date: Option<NaiveDateTime>,
-    pub tags: Vec<String>,
+    pub tags: Vec<Option<String>>,
     pub user_id: Uuid
 }
